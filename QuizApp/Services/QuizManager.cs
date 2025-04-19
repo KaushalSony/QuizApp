@@ -63,20 +63,30 @@ public class QuizManager
 
     private string? WaitForInput(int seconds)
     {
+        // Check if Console input is redirected (common in Docker environments)
+        if (Console.IsInputRedirected)
+        {
+            // Just wait for the specified time without input.
+            Thread.Sleep(seconds * 1000);
+            return null; // No input received
+        }
+
         DateTime endTime = DateTime.Now.AddSeconds(seconds);
         string input = "";
+
         while (DateTime.Now < endTime)
         {
             if (Console.KeyAvailable)
             {
                 var key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Enter) break;
+                if (key.Key == ConsoleKey.Enter) break; // Stop on Enter key
                 input += key.KeyChar;
-                Console.Write(key.KeyChar);
+                Console.Write(key.KeyChar); // Display the input
             }
         }
         return input;
     }
 
     public int GetScore() => score;
+
 }
