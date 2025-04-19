@@ -1,57 +1,35 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using QuizApp.Models;
 
-namespace QuizApp.Services
+namespace QuizApp.Services;
+
+public class HighScoreManager
 {
-    public class HighScoreManager
+    private const string FilePath = "data/highscores.txt";
+
+    public void SaveHighScore(HighScore score)
     {
-        private readonly string filePath = "data/highscores.txt";
+        var line = $"{score.Username}|{score.Score}|{score.Date}";
+        File.AppendAllText(FilePath, line + Environment.NewLine);
+    }
 
-        public void SaveHighScore(string name, int score)
-        {
-            var entry = $"{name}|{score}|{DateTime.Now}";
-            File.AppendAllLines(filePath, new[] { entry });
-        }
+    public List<HighScore> GetHighScores()
+    {
+        if (!File.Exists(FilePath)) return new();
 
-        public List<HighScore> LoadHighScores()
-        {
-            var highScores = new List<HighScore>();
-
-            if (File.Exists(filePath))
+        return File.ReadAllLines(FilePath)
+            .Where(l => !string.IsNullOrWhiteSpace(l))
+            .Select(line =>
             {
-                var lines = File.ReadAllLines(filePath);
-                foreach (var line in lines)
+                var parts = line.Split('|');
+                return new HighScore
                 {
-                    var parts = line.Split('|');
-                    if (parts.Length == 3 &&
-                        int.TryParse(parts[1], out int score) &&
-                        DateTime.TryParse(parts[2], out DateTime date))
-                    {
-                        highScores.Add(new HighScore
-                        {
-                            Name = parts[0],
-                            Score = score,
-                            Date = date
-                        });
-                    }
-                }
-            }
-
-            return highScores.OrderByDescending(h => h.Score).Take(5).ToList(); // Top 5 scores
-        }
-
-        public void DisplayHighScores()
-        {
-            var scores = LoadHighScores();
-
-            Console.WriteLine("\nTop 5 High Scores:");
-            foreach (var score in scores)
-            {
-                Console.WriteLine($"{score.Name} - {score.Score} points on {score.Date.ToShortDateString()}");
-            }
-        }
+                    Username = parts[0],
+                    Score = int.Parse(parts[1]),
+                    Date = DateTime.Parse(parts[2])
+                };
+            })
+            .OrderByDescending(h => h.Score)
+            .Take(5)
+            .ToList();
     }
 }
