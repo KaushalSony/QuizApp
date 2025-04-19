@@ -23,5 +23,7 @@ WORKDIR /app
 
 COPY --from=build /out .
 
+COPY data/questions.json ./data/questions.json
+
 
 ENTRYPOINT ["dotnet", "QuizApp.dll"]
