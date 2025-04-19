@@ -17,7 +17,6 @@ public class QuizManager
     public void StartQuiz(string categoryFilter = "", int timePerQuestion = 10)
     {
         Console.Clear();
-
         var filtered = string.IsNullOrWhiteSpace(categoryFilter)
             ? questions
             : questions.Where(q => q.Category.Equals(categoryFilter, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -45,12 +44,12 @@ public class QuizManager
             {
                 if (choice - 1 == q.AnswerIndex)
                 {
-                    Console.WriteLine(" Correct!");
+                    Console.WriteLine("✅ Correct!");
                     score++;
                 }
                 else
                 {
-                    Console.WriteLine($" Wrong! Correct: {q.Options[q.AnswerIndex]}");
+                    Console.WriteLine($"❌ Wrong! Correct: {q.Options[q.AnswerIndex]}");
                 }
             }
             else

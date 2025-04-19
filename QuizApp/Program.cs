@@ -23,13 +23,13 @@ class Program
         int finalScore = quiz.GetScore();
         highScoreManager.SaveHighScore(new HighScore
         {
-            Name = username,
+            Username = username,
             Score = finalScore,
             Date = DateTime.Now
         });
 
         Console.WriteLine("\n🏆 High Scores:");
-        foreach (var hs in highScoreManager.DisplayHighScores())
+        foreach (var hs in highScoreManager.GetHighScores())
         {
             Console.WriteLine($"{hs.Username} - {hs.Score} ({hs.Date.ToShortDateString()})");
         }
