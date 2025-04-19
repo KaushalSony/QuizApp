@@ -1,0 +1,20 @@
+[
+  {
+    "Text": "What is the capital of France?",
+    "Options": [ "Paris", "London", "Berlin", "Madrid" ],
+    "AnswerIndex": 0,
+    "Category": "Geography"
+  },
+  {
+    "Text": "Which planet is known as the Red Planet?",
+    "Options": [ "Earth", "Mars", "Jupiter", "Venus" ],
+    "AnswerIndex": 1,
+    "Category": "Science"
+  },
+  {
+    "Text": "Who wrote 'Romeo and Juliet'?",
+    "Options": [ "Charles Dickens", "Jane Austen", "William Shakespeare", "Mark Twain" ],
+    "AnswerIndex": 2,
+    "Category": "Literature"
+  }
+]
